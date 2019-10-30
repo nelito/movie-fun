@@ -16,18 +16,19 @@
  */
 package org.superbiz.moviefun;
 
-import javax.ejb.Stateless;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import java.util.List;
 
-@Stateless
+@Component
 public class MoviesBean {
 
-    @PersistenceContext(unitName = "movie-unit")
+    @Autowired
     private EntityManager entityManager;
 
     public Movie find(Long id) {
