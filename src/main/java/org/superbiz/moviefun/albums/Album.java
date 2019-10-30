@@ -24,7 +24,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "album")
+@Table(schema = "albums", name = "album")
 public class Album implements Serializable {
 
     private static final long serialVersionUID = 1L;
