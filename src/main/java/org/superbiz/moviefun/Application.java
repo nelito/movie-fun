@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -101,6 +102,12 @@ public class Application {
         JpaTransactionManager platformTransactionManager = new JpaTransactionManager();
         platformTransactionManager.setEntityManagerFactory(albumsLocalContainerEntityManagerFactoryBean);
         return platformTransactionManager;
+    }
+
+    @Bean(name = "chainedTransactionManager")
+    public ChainedTransactionManager transactionManager(PlatformTransactionManager moviesPlatformTransactionManager,
+                                                        PlatformTransactionManager albumsPlatformTransactionManager) {
+        return new ChainedTransactionManager(moviesPlatformTransactionManager, albumsPlatformTransactionManager);
     }
 
 }

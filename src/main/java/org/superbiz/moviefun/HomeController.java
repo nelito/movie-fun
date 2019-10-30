@@ -41,29 +41,30 @@ public class HomeController {
     }
 
     @GetMapping("/setup")
+    @Transactional(value = "chainedTransactionManager")
     public String setup(Map<String, Object> model) {
-        TransactionTemplate moviesTransactionTemplate =  new TransactionTemplate(moviesPlatformTransactionManager);
-        TransactionTemplate albumsTransactionTemplate =  new TransactionTemplate(albumsPlatformTransactionManager);
-
-        moviesTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
+//        TransactionTemplate moviesTransactionTemplate =  new TransactionTemplate(moviesPlatformTransactionManager);
+//        TransactionTemplate albumsTransactionTemplate =  new TransactionTemplate(albumsPlatformTransactionManager);
+//
+//        moviesTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
+//            protected void doInTransactionWithoutResult(TransactionStatus status) {
                 for (Movie movie : movieFixtures.load()) {
                     moviesBean.addMovie(movie);
                 }
 
-            }
-        });
-
-
-        albumsTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
+//            }
+//        });
+//
+//
+//        albumsTransactionTemplate.execute(new TransactionCallbackWithoutResult() {
+//            protected void doInTransactionWithoutResult(TransactionStatus status) {
                 for (Album album : albumFixtures.load()) {
                     albumsBean.addAlbum(album);
                 }
 
-            }
-        });
-
+//            }
+//        });
+//
 
 
         model.put("movies", moviesBean.getMovies());
