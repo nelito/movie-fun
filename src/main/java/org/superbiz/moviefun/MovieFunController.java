@@ -18,18 +18,24 @@ package org.superbiz.moviefun;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
 /**
  * @version $Revision$ $Date$
  */
-public class ActionServlet extends HttpServlet {
+
+@Controller
+@Transactional
+public class MovieFunController /*extends HttpServlet*/ {
 
     private static final long serialVersionUID = -5832176047021911038L;
 
@@ -38,17 +44,19 @@ public class ActionServlet extends HttpServlet {
     @Autowired
     private MoviesBean moviesBean;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(request, response);
+
+    //@Override
+    @GetMapping("/moviefun")
+    public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        return process(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(request, response);
+    @PostMapping("/moviefun")
+    public String doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        return process(request, response);
     }
 
-    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private String process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
         if ("Add".equals(action)) {
@@ -62,8 +70,7 @@ public class ActionServlet extends HttpServlet {
             Movie movie = new Movie(title, director, genre, rating, year);
 
             moviesBean.addMovie(movie);
-            response.sendRedirect("moviefun");
-            return;
+            return "redirect:moviefun";
 
         } else if ("Remove".equals(action)) {
 
@@ -72,8 +79,7 @@ public class ActionServlet extends HttpServlet {
                 moviesBean.deleteMovieId(new Long(id));
             }
 
-            response.sendRedirect("moviefun");
-            return;
+            return "redirect:moviefun";
 
         } else {
             String key = request.getParameter("key");
@@ -130,7 +136,7 @@ public class ActionServlet extends HttpServlet {
             request.setAttribute("field", field);
         }
 
-        request.getRequestDispatcher("WEB-INF/moviefun.jsp").forward(request, response);
+        return "moviefun";
     }
 
 }
