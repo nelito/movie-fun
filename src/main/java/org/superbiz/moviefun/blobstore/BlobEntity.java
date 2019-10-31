@@ -1,19 +1,23 @@
 package org.superbiz.moviefun.blobstore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.InputStream;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "blob")
-public class Blob {
+public class BlobEntity {
+
     @Id
     private final String name;
-    private final InputStream inputStream;
+    private final Blob blob;
     private final String contentType;
 
-    public Blob(String name, InputStream inputStream, String contentType) {
+    public BlobEntity(String name, Blob blob, String contentType) {
         this.name = name;
-        this.inputStream = inputStream;
+        this.blob = blob;
         this.contentType = contentType;
     }
 
@@ -21,8 +25,8 @@ public class Blob {
         return name;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
+    public Blob getBlob() {
+        return blob;
     }
 
     public String getContentType() {
