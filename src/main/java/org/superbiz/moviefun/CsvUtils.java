@@ -2,6 +2,8 @@ package org.superbiz.moviefun;
 
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectReader;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +16,11 @@ public class CsvUtils {
 
     public static String readFile(String path) {
         try {
-            Scanner scanner = new Scanner(new File(path)).useDelimiter("\\A");
+            ClassPathResource classPathResource = new ClassPathResource(path);
+            File file = classPathResource.getFile();
+
+//            File file = new File(path);
+            Scanner scanner = new Scanner(file).useDelimiter("\\A");
 
             if (scanner.hasNext()) {
                 return scanner.next();
@@ -23,6 +29,8 @@ public class CsvUtils {
             }
 
         } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
