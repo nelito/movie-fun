@@ -8,3 +8,4 @@ spring:
   mvc.view:
     prefix: /WEB-INF/
     suffix: .jsp
+our.image.path: covers
