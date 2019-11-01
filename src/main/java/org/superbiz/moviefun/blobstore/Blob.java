@@ -1,12 +1,8 @@
 package org.superbiz.moviefun.blobstore;
 
-import javax.persistence.*;
 import java.io.InputStream;
 
-@Entity
-@Table(name = "blob")
 public class Blob {
-    @Id
     private final String name;
     private final InputStream inputStream;
     private final String contentType;
