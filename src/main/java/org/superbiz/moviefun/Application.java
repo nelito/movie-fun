@@ -26,7 +26,7 @@ public class Application {
     }
 
     @Bean
-    @ConditionalOnProperty(value = "useS3", matchIfMissing = true)
+    @ConditionalOnProperty(value = "blobStore", havingValue = "S3Store", matchIfMissing = true)
     public BlobStore blobStore(
             ServiceCredentials serviceCredentials,
             @Value("${vcap.services.photo-storage.credentials.endpoint:#{null}}") String endpoint
@@ -46,6 +46,7 @@ public class Application {
     }
 
     @Bean
+    @ConditionalOnProperty(value = "blobStore", havingValue = "S3Store", matchIfMissing = true)
     ServiceCredentials serviceCredentials(@Value("${vcap.services}") String vcapServices) {
         return new ServiceCredentials(vcapServices);
     }
