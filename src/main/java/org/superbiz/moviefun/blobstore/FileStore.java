@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @Component
-@ConditionalOnProperty(value ="useS3", havingValue = "false")
+@ConditionalOnProperty(value ="blobStore", havingValue = "FileStore")
 public class FileStore implements BlobStore {
 
     @Value("${our.image.path}")
